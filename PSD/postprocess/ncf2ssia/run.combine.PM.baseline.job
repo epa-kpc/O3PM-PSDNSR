@@ -1,0 +1,51 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors 
+#PBS -q romo2
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=8
+
+unset verbose
+
+
+
+set GRID = 12US2 
+set YEAR = 2011
+set YY = `echo $YEAR | cut -c3-4`
+set NZ = 25
+
+foreach GRID ( 12US2 )
+foreach SCEN ( 2011eh_cb6v2_v6_11g+fake500  ) 
+#foreach source (20)
+
+#Set Directories
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp
+set THISDIR = /work/ROMO/users/kpc/merps/combine
+set POSTDIR = /work/ROMO/lrt/camx/$GRID/postp
+mkdir -p $POSTDIR
+
+#Create species def file
+echo "##start   YYYYSTA  000000" > $THISDIR/species.temp
+echo "##end   YYYYEND  000000" >> $THISDIR/species.temp
+echo "##layer 1" >> $THISDIR/species.temp
+echo "PSO4,ug/m3,PSO4[1]" >> $THISDIR/species.temp
+echo "PNO3,ug/m3,PNO3[1]" >> $THISDIR/species.temp
+setenv SPECIES_DEF $THISDIR/species.temp
+
+#run combine
+setenv OUTFILE $POSTDIR/combine_24AVG_PM.$GRID.$SCEN.baseline.allmons.ncf
+rm -rf $OUTFILE
+setenv INFILE1 $INDIR/combine_24AVG_PM.$GRID.$SCEN.allmons.ncf
+if (-e $INFILE1) then
+/home/kappel/showard/bin/combine.exe
+endif
+
+#clean up
+rm -rf $THISDIR/species.temp
+
+#end
+end
+end
+
+exit
+

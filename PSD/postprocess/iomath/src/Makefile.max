@@ -1,0 +1,57 @@
+MODEL = iomath.max
+
+# Compiler Definitions
+FC    = ifort
+CC    = cc
+CPLUS = C++
+
+# Preprocessor
+FPP = $FC
+
+# Compiler Flags
+ F_FLAGS    = -extend_source -O2 -convert big_endian -I /home/wdx/lib/x86_64/ifc/se_snl -I.
+# C_FLAGS    = -v -O2 -I/usr/include
+ C_FLAGS = 
+ LINK_FLAGS =
+
+CPP_FLAGS =    
+
+
+LIBRARIES = -L/home/wdx/lib_sol/x86_64/ifc/ioapi_3.1/Linux2_x86_64ifort -lioapi \
+     -L/home/wdx/lib_sol/x86_64/ifort/netcdf/lib -lnetcdf -lnetcdff
+
+
+# Libraries
+# #LIBRARIES = -L/home/wdx/lib/x86_64/ifc11/ioapi_3/Linux2_x86_64ifort -lioapi \
+#  -L/home/wdx/lib/x86_64/ifc11/netcdf/lib -lnetcdf 
+#
+#  # Include file subsitution definitions
+ INCL = /home/wdx/lib_sol/src/ioapi_3.1/ioapi/fixed_src
+
+
+
+
+INCLUDES = \
+ -DSUBST_GRID_ID= \
+ -DSUBST_PARMS_ID=\"$(INCL)/PARMS3.EXT\" \
+ -DSUBST_FDESC_ID=\"$(INCL)/FDESC3.EXT\" \
+ -DSUBST_IODECL_ID=\"$(INCL)/IODECL3.EXT\"  
+
+# List of Object files needed for linking
+OBJECTS =\
+ iomath.max.o 
+
+.SUFFIXES: .F .f .c
+
+
+$(MODEL): $(OBJECTS)
+	$(FC) $(LINK_FLAGS) $(OBJECTS) $(LIBRARIES) -o $@
+
+.F.o:
+	$(FC) -c $(F_FLAGS) $(CPP_FLAGS) $(INCLUDES) $<
+
+.f.o:
+	$(FC) $(F_FLAGS) -c $<
+
+.c.o:
+	$(CC) $(C_FLAGS) -c $<

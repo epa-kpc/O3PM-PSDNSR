@@ -1,0 +1,93 @@
+"start date (YYDDD)      ",11182
+"start date hr           ",0
+"Grid domain             ",QGRIDQ
+"number of stacks        ",1
+"stack number(stack id)  ",1
+"x coordinates           ",QLONGQ
+"y coordinates           ",QLATQ
+"Height (m)              ",QHEIGHTQ
+"Diameter (m)            ",QDIAMQ
+"Exit temperature (K)    ",QTEMPQ
+"Exit velocity (m/s)     ",QVELQ
+"Flow rate (cfm)         ",0
+"Number of pollutants    ",QSPECQ
+"Pollutant name          ",CO
+"Pollutant emissions     ",QCOQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999,8.9999
+"Pollutant name          ",SO2
+"Pollutant emissions     ",QSO2Q
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374,3.9374
+"Pollutant name          ",NO
+"Pollutant emissions     ",QNOXQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304,4.9304
+"Pollutant name          ",NO2
+"Pollutant emissions     ",QNOXQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478,0.5478
+"Pollutant name          ",ALD2
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0873,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817,0.0817
+"Pollutant name          ",ALDX
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037,0.1037
+"Pollutant name          ",ETH
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907,0.2907
+"Pollutant name          ",ETHA
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788,0.0788
+"Pollutant name          ",ETOH
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472,0.050472
+"Pollutant name          ",FORM
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357,0.6357
+"Pollutant name          ",IOLE
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408,0.0408
+"Pollutant name          ",ISOP
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027,0.0027
+"Pollutant name          ",MEOH
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422,0.0422
+"Pollutant name          ",NVOL
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132,0.0132
+"Pollutant name          ",OLE
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702,0.8702
+"Pollutant name          ",PAR
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961,5.961
+"Pollutant name          ",TERP
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315,0.0315
+"Pollutant name          ",TOL
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953,0.2953
+"Pollutant name          ",UNR
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353,1.0353
+"Pollutant name          ",XYL
+"Pollutant emissions     ",QVOCQ
+"Emissions units         ","moles/s"
+"Hourly emis. Multiplie  ",0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548,0.1548

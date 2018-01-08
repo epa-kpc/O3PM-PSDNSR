@@ -1,0 +1,40 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors 
+#PBS -q romo2
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=8
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+unset verbose
+
+
+foreach GRID ( 12EUS3 )
+foreach SCEN ( 2011eh_v6_11g+25fake1000 2011eh_v6_11g+25fake3000 2011eh_v6_11g+25fake500 2011eh_v6_11g+sr25fake500  ) 
+
+
+#Set Directories
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp
+set THISDIR = /work/ROMO/users/kpc/ssimpact/uam2ncf
+set POSTDIR = /work/ROMO/lrt/camx/$GRID/postp
+
+
+setenv G3D  $POSTDIR/combine_24AVG_PM.$GRID.$SCEN.allmons.ncf
+setenv OUTF $POSTDIR/combine_24AVG_PM.$GRID.$SCEN.annmax.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath.max
+
+
+setenv G3D  $POSTDIR/combine_24AVG_PM.$GRID.$SCEN.allmons.ncf
+setenv OUTF $POSTDIR/combine_24AVG_PM.$GRID.$SCEN.annavg.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath
+
+end
+end
+
+exit
+

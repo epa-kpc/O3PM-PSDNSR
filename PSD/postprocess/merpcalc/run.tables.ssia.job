@@ -1,0 +1,26 @@
+#!/bin/csh
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=12:00:00
+#PBS -l nodes=1:ppn=8
+
+
+setenv POL O3
+setenv GRID 12US2
+setenv SCENARIO 2011eh_cb6v2_v6_11g+fake500
+setenv DIR /work/ROMO/lrt/camx/$GRID/postp
+
+foreach source ( baseline20 source20 )
+
+cp makemerptable_ssiainputfiles.master.2017nov18.r temp.r
+
+#perl -pi -e "s/QQCASEQQ/${SCENARIO}/g;" temp.r
+#perl -pi -e "s/QQRRFTESTQQ/${source}/g;" temp.r
+
+R --vanilla < temp.r
+
+rm -rf temp.r
+
+
+exit()

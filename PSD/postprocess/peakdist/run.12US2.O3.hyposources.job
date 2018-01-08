@@ -1,0 +1,138 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors 
+#PBS -q romo2
+#PBS -l walltime=12:00:00
+#PBS -l nodes=1:ppn=8
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+#unset verbose
+set verbose
+
+set GRID = 12US2 
+set EMIS = 500
+set STKHT = 10
+
+foreach SCEN ( 2011eh_cb6v2_v6_11g+fake500VOCsurfrel  ) 
+
+#Set Directories
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp
+set OUTDIR = /work/ROMO/lrt/camx/$GRID/postp
+
+foreach POL ( O3V )
+foreach SOURCE ( 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36)
+set NEWSCEN = ${SCEN}_$SOURCE
+
+setenv G3D  $INDIR/combine_MDA8_$POL.12US2.${SCEN}.annmax.ncf
+setenv OUTF $OUTDIR/peakdist.$GRID.$NEWSCEN.$POL.ncf
+setenv TEXTOUT $OUTDIR/peakdist.$GRID.$NEWSCEN.$POL.txt
+rm -rf $OUTF
+rm -rf $TEXTOUT
+
+
+if ($SOURCE == 1) then
+set loc = "44.47740,-73.83640"
+else if ($SOURCE == 2) then
+set loc = "41.01682,-74.99964"
+else if ($SOURCE == 3) then
+set loc = "39.93977,-75.82167"
+else if ($SOURCE == 4) then
+set loc = "35.92231,-78.18710"
+else if ($SOURCE == 5) then
+set loc = "44.16409,-84.06927"
+else if ($SOURCE == 6) then
+set loc = "41.23792,-81.81293"
+else if ($SOURCE == 7) then
+set loc = "39.29932,-80.63270"
+else if ($SOURCE == 8) then
+set loc = "35.43905,-81.15416"
+else if ($SOURCE == 9) then
+set loc = "44.73344,-88.26285"
+else if ($SOURCE == 10) then
+set loc = "42.41040,-86.02656"
+else if ($SOURCE == 11) then
+set loc = "40.00893,-86.57371"
+else if ($SOURCE == 12) then
+set loc = "36.07907,-84.14908"
+else if ($SOURCE == 13) then
+set loc = "47.91320,-92.33149"
+else if ($SOURCE == 14) then
+set loc = "45.59580,-90.76777"
+else if ($SOURCE == 15) then
+set loc = "42.45503,-89.60579"
+else if ($SOURCE == 16) then
+set loc = "39.50895,-89.09180"
+else if ($SOURCE == 17) then
+set loc = "36.22335,-89.85133"
+else if ($SOURCE == 18) then
+set loc = "46.40135,-95.08568"
+else if ($SOURCE == 19) then
+set loc = "44.78513,-93.31068"
+else if ($SOURCE == 20) then
+set loc = "42.09211,-94.69320"
+else if ($SOURCE == 21) then
+set loc = "39.50356,-94.13533"
+else if ($SOURCE == 22) then
+set loc = "34.38972,-95.56735"
+else if ($SOURCE == 23) then
+set loc = "44.28660,-101.87910"
+else if ($SOURCE == 24) then
+set loc = "43.86105,-97.425149"
+else if ($SOURCE == 25) then
+set loc = "41.24719,-102.00575"
+else if ($SOURCE == 26) then
+set loc = "38.90942,-101.17290"
+else if ($SOURCE == 27) then
+set loc = "35.31061,-99.187270"
+else if ($SOURCE == 28) then
+set loc = "47.36665,-111.44665"
+else if ($SOURCE == 29) then
+set loc = "44.29936,-105.89477"
+else if ($SOURCE == 30) then
+set loc = "41.82944,-105.85746"
+else if ($SOURCE == 31) then
+set loc = "38.91894,-105.98952"
+else if ($SOURCE == 32) then
+set loc = "35.36769,-107.38248"
+else if ($SOURCE == 33) then
+set loc = "38.53569,-84.706985"
+else if ($SOURCE == 34) then
+set loc = "41.90494,-110.32628"
+else if ($SOURCE == 35) then
+set loc = "38.80378,-110.63032"
+else if ($SOURCE == 36) then
+set loc = "35.42770,-111.27027"
+else
+ exit
+endif
+
+
+if (-e $G3D) then
+
+/work/ROMO/users/kpc/util/iomath/iomath.bydist << ieof
+incl NH3?|FALSE
+max dist |1000.
+target   |${POL}${SOURCE}
+emis spec|$SOURCE
+stack ht |$STKHT
+emissions|${EMIS}
+coordinat|$loc
+grid spec|40.,-97.,33.,45.
+output   |$TEXTOUT
+ieof
+
+rm -rf fort.15
+
+endif
+
+
+
+end #loop over sources
+end #loop over scenarios
+end #loop over pollutants
+
+exit
+

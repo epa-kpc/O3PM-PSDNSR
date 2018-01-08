@@ -1,0 +1,50 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors 
+#PBS -q romo2
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=8
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+unset verbose
+
+set GRID = 12US2 
+set YEAR = 2011
+set YY = `echo $YEAR | cut -c3-4`
+set NZ = 25
+
+foreach SCEN ( 2011eh_cb6v2_v6_11g+fake500surfrel  ) 
+
+
+#Set Directories
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp
+set THISDIR = /work/ROMO/users/kpc/merps/combine
+set POSTDIR = /work/ROMO/lrt/camx/$GRID/postp
+mkdir -p $POSTDIR
+setenv OUTFILE $POSTDIR/combine_24AVG_PM.$GRID.$SCEN.allmons.ncf
+rm -rf $OUTFILE
+
+cp $THISDIR/species.$GRID.PM.master $THISDIR/species.camx.temp
+setenv SPECIES_DEF $THISDIR/species.camx.temp
+#perl -pi -e "s/YYYYSTA/$day/g;" $SPECIES_DEF
+#perl -pi -e "s/YYYYEND/$endday/g;" $SPECIES_DEF
+
+
+foreach mon (01 02 03 04 05 06 07 08 09 10 11 12)
+
+setenv INFILE1 $INDIR/combine_24AVG_PM.$GRID.$SCEN.$mon.ncf
+if (-e $INFILE1) then
+/home/kappel/showard/bin/combine.exe
+endif
+
+end
+
+end
+
+rm -f $THISDIR/species.camx.temp
+
+exit
+

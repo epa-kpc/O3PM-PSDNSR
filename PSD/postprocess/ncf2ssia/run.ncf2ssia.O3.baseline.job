@@ -1,0 +1,66 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=3:00:00
+#PBS -l select=ncpus=1
+
+set verbose
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+unset verbose
+
+
+
+set YEAR = 2011         #this is the year to label the MATS input file
+set GRID = 12US2 
+set NZ = 25
+
+foreach SCEN ( 2011eh_cb6v2_v6_11g+fake500 )
+foreach EXTRACT ( O3 ) #options are SULF SNAS NITR AMMN PM25 O3
+foreach SOURCE (20)
+
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp 
+set EXECDIR = /work/ROMO/users/kpc/merps/ncf2ssia
+
+#grid specs key:
+#lambert center long,lambert center lat,true lat1,true lat2,nx,ny,xorg,yorg,dx
+set SPCS = " -97.,40.,33.,45.,396,246,-2412,-1620,12"
+
+if ($SOURCE == 1) then
+set loc = "44.47740,-73.83640"
+else if ($SOURCE == 20) then
+set loc = "42.09211,-94.69320"
+else
+endif
+
+
+rm -f INFILE
+ln -s $INDIR/combine_MDA8_O3N.$GRID.$SCEN.baseline.allmons.ncf INFILE
+
+$EXECDIR/ncf2ssia.x <<EOF
+specie   |$EXTRACT
+sourceloc|$loc
+windowdis|500
+modl year|$YEAR
+projectio|$SPCS
+ssia inpt|$INDIR/ssia_concs.$EXTRACT.$GRID.$SCEN.baseline$SOURCE.csv
+ssia stk |$INDIR/ssia_locs.$EXTRACT.$GRID.$SCEN.baseline$SOURCE.csv
+ndays    |365
+nfiles   |1
+filename |INFILE
+EOF
+
+
+rm -f INFILE
+
+end # end loop over sources
+end # end loop over target extraction species 
+end # end loop over scenarios
+
+exit()
+
+

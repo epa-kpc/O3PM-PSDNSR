@@ -1,0 +1,97 @@
+#! /bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=16
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+
+
+ setenv compiler intel
+ setenv compilerVrsn 13.1
+ source /work/ROMO/users/kpc/merps/hr2day/config_cmaq.csh
+
+
+ setenv GRID 12WUS1
+ setenv SCEN 2011eh_v6_11g+NOXonly25fake3000
+
+foreach SCEN ( 2011eh_v6_11g+25fake1000 2011eh_v6_11g+25fake3000 2011eh_v6_11g+25fake500 2011eh_v6_11g+sr25fake500 2011eh_v6_11g+XVOCsr25fake500   )
+foreach month (01 02 03 04 05 06 07 08 09 10 11 12)
+
+#> define species (format: "Name, units, From_species, Operation")
+#>  operations : {SUM, AVG, MIN, MAX, @MAXT, MAXDIF, 8HRMAX, SUM06}
+ setenv OZONE "O3" #variable from which the @8HRMAXO3 bases the 8hr max
+ setenv SPECIES_1 "O3,ppb,O3,8HRMAX"
+ setenv SPECIES_2 "O3V1,ppb,O3V1,@8HRMAXO3"
+ setenv SPECIES_3 "O3V2,ppb,O3V2,@8HRMAXO3"
+ setenv SPECIES_4 "O3V3,ppb,O3V3,@8HRMAXO3"
+ setenv SPECIES_5 "O3V4,ppb,O3V4,@8HRMAXO3"
+ setenv SPECIES_6 "O3V5,ppb,O3V5,@8HRMAXO3"
+ setenv SPECIES_7 "O3V6,ppb,O3V6,@8HRMAXO3"
+ setenv SPECIES_8 "O3V7,ppb,O3V7,@8HRMAXO3"
+ setenv SPECIES_9 "O3V8,ppb,O3V8,@8HRMAXO3"
+ setenv SPECIES_10 "O3V9,ppb,O3V9,@8HRMAXO3"
+ setenv SPECIES_11 "O3V10,ppb,O3V10,@8HRMAXO3"
+ setenv SPECIES_12 "O3V11,ppb,O3V11,@8HRMAXO3"
+ setenv SPECIES_13 "O3V12,ppb,O3V12,@8HRMAXO3"
+ setenv SPECIES_14 "O3V13,ppb,O3V13,@8HRMAXO3"
+ setenv SPECIES_15 "O3V14,ppb,O3V14,@8HRMAXO3"
+ setenv SPECIES_16 "O3V15,ppb,O3V15,@8HRMAXO3"
+ setenv SPECIES_17 "O3V16,ppb,O3V16,@8HRMAXO3"
+ setenv SPECIES_18 "O3V17,ppb,O3V17,@8HRMAXO3"
+ setenv SPECIES_19 "O3V18,ppb,O3V18,@8HRMAXO3"
+ setenv SPECIES_20 "O3V19,ppb,O3V19,@8HRMAXO3"
+ setenv SPECIES_21 "O3V20,ppb,O3V20,@8HRMAXO3"
+ setenv SPECIES_22 "O3V21,ppb,O3V21,@8HRMAXO3"
+ setenv SPECIES_23 "O3V22,ppb,O3V22,@8HRMAXO3"
+ setenv SPECIES_24 "O3V23,ppb,O3V23,@8HRMAXO3"
+ setenv SPECIES_25 "O3V24,ppb,O3V24,@8HRMAXO3"
+ setenv SPECIES_26 "O3V25,ppb,O3V25,@8HRMAXO3"
+ setenv SPECIES_27 "O3V26,ppb,O3V26,@8HRMAXO3"
+
+ setenv BINDIR /work/ROMO/users/kpc/merps/hr2day/BLD_hr2day_v52_intel13.1
+ setenv EXEC hr2day_v52.exe
+#> location of time zone data file, tz.csv (this is a required input file
+#> when using OLAYTYPE HOURLY since hourly observations need to be shifted
+#> from local time to GMT)
+ setenv TZFILE /work/ROMO/users/kpc/merps/hr2day/tz.csv
+#> set input and output files
+ setenv INFILE /work/ROMO/lrt/camx/$GRID/postp/combine_hourly_O3V.$GRID.$SCEN.$month.ncf
+          #[Add location of input file, e.g. COMBINE_ACONC file.]
+ setenv OUTFILE /work/ROMO/lrt/camx/$GRID/postp/combine_MDA8_O3V.$GRID.$SCEN.$month.ncf
+ rm -f $OUTFILE
+
+#> Projection sphere type used by I/OAPI (use type #20 to match WRF/CMAQ)
+ setenv IOAPI_ISPH 20
+#> set to use local time (default is GMT)
+ setenv USELOCAL Y
+#> set to use daylight savings time (default is N)
+ setenv USEDST N
+#> partial day calculation (computes value for last day)
+ setenv PARTIAL_DAY Y
+#> constant hour offset between desired time zone and GMT (default is 0)
+ setenv HROFFSET 0
+#> starting hour for daily metrics (default is 0)
+ setenv START_HOUR 0
+#> ending hour for daily metrics (default is 23)
+ setenv END_HOUR 23
+#> Number of 8hr values to use when computing daily maximum 8hr ozone.
+#> Allowed values are 24 (use all 8-hr averages with starting hours 
+#> from 0 - 23 hr local time) and 17 (use only the 17 8-hr averages
+#> with starting hours from 7 - 23 hr local time)
+ setenv HOURS_8HRMAX 24
+# setenv HOURS_8HRMAX 17
+
+#> Executable call:
+ ${BINDIR}/${EXEC}
+
+ end #loop over months
+ end #end loop over scenarios
+
+ exit()
+
+

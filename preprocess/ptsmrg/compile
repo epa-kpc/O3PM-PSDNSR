@@ -1,4 +1,0 @@
-rm -f *.o
-make -f makefile
-rm *.o
-rm *~

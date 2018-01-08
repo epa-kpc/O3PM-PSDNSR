@@ -1,0 +1,39 @@
+#!/bin/csh
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=12:00:00
+#PBS -l nodes=1:ppn=8
+
+
+setenv GRID 12WUS1
+setenv INDIR /work/ROMO/lrt/camx/$GRID/postp
+setenv OUTDIR /work/ROMO/users/merps/merpcalc
+
+foreach POL (O3N O3V )
+
+if ($POL == O3N) then
+set scenarios =  " 2011eh_v6_11g+NOXonly25fake1000 2011eh_v6_11g+NOXonly25fake3000 2011eh_v6_11g+NOXonly25fake500  2011eh_v6_11g+NOXonlysr25fake500 "
+else
+set scenarios = " 2011eh_v6_11g+25fake1000 2011eh_v6_11g+25fake3000 2011eh_v6_11g+25fake500 2011eh_v6_11g+sr25fake500 "
+endif
+
+foreach SCENARIO ($scenarios)
+foreach source ( 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  )
+
+setenv FNAME peakdist.$GRID.${SCENARIO}_${source}.$POL.txt
+
+cp makemerptables_peakdistfiles.master.2017nov18.r temp.r
+
+perl -pi -e "s/QQGRIDQQ/${GRID}/g;" temp.r
+perl -pi -e "s/QQFNAMEQQ/${FNAME}/g;" temp.r
+perl -pi -e "s/QQMETRICQQ/MDA8/g;" temp.r
+
+R --vanilla < temp.r
+rm -rf temp.r
+
+end #end loop over sources
+end #end loop over pollutants
+end #end loop over scenarios
+
+exit()

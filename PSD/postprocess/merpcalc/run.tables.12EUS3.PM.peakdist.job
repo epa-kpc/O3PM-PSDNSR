@@ -1,0 +1,43 @@
+#!/bin/csh
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=12:00:00
+#PBS -l nodes=1:ppn=8
+
+
+setenv GRID 12EUS3 
+setenv INDIR /work/ROMO/lrt/camx/$GRID/postp
+setenv OUTDIR /work/ROMO/users/merps/merpcalc
+
+foreach POL (SULF NITR)
+
+set scenarios = "  2011eh_v6_11g+25fake1000 2011eh_v6_11g+25fake3000 2011eh_v6_11g+25fake500 2011eh_v6_11g+sr25fake500 "
+foreach SCENARIO ( $scenarios )
+
+foreach source ( 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  )
+
+foreach type (annmax annavg)
+if ($type == annavg) then
+set METRIC = ANNAVG
+else
+set METRIC = DAILY
+endif
+
+setenv FNAME peakdist.$GRID.${SCENARIO}_${source}.$POL.$type.txt
+
+cp makemerptables_peakdistfiles.master.2017nov18.r temp.r
+
+perl -pi -e "s/QQGRIDQQ/${GRID}/g;" temp.r
+perl -pi -e "s/QQFNAMEQQ/${FNAME}/g;" temp.r
+perl -pi -e "s/QQMETRICQQ/${METRIC}/g;" temp.r
+
+R --vanilla < temp.r
+rm -rf temp.r
+
+end #end loop over types annmax annavg
+end #end loop over sources
+end #end loop over pollutants
+end #end loop over scenarios
+
+exit()

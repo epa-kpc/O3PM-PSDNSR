@@ -1,0 +1,4 @@
+rm -rf *.o
+make -f Makefile.avg
+make -f Makefile.max
+rm -rf *.o

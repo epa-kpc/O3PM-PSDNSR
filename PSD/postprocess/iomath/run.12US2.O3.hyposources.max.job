@@ -1,0 +1,39 @@
+#!/bin/csh -f
+#SBATCH -p oar
+#SBATCH -t 24:00:00
+#SBATCH -n 32
+#SBATCH -c 1
+#SBATCH --gid=romo
+#SBATCH --account=romo
+
+
+unset verbose
+
+setenv GRID 12US2
+
+foreach POL ( O3V O3N )
+foreach SCEN ( 2011eh_cb6v2_v6_11g+fake500VOCsurfrel  ) 
+
+
+#Set Directories
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp
+set THISDIR = /work/ROMO/users/kpc/ssimpact/uam2ncf
+set POSTDIR = /work/ROMO/lrt/camx/$GRID/postp
+
+
+setenv G3D  $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.allmons.ncf
+setenv OUTF $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.annmax.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath.max
+
+
+setenv G3D  $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.allmons.ncf
+setenv OUTF $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.annavg.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath
+
+end
+end
+
+exit
+

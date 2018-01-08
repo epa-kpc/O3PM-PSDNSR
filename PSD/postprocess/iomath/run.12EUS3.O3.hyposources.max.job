@@ -1,0 +1,47 @@
+#!/bin/csh -f
+#!/bin/csh -f
+#SBATCH -p oar
+#SBATCH -t 24:00:00
+#SBATCH -n 32
+#SBATCH -c 1
+#SBATCH --gid=romo
+#SBATCH --account=romo
+
+
+
+
+setenv GRID 12EUS3
+
+foreach POL (O3V)
+
+if ($POL == O3V) then
+set scenarios = "2011eh_v6_11g+25fake1000 2011eh_v6_11g+25fake3000 2011eh_v6_11g+25fake500  2011eh_v6_11g+sr25fake500 2011eh_v6_11g+XVOCsr25fake500  "
+else
+set scenarios = " 2011eh_v6_11g+NOXonly25fake1000 2011eh_v6_11g+NOXonly25fake3000 2011eh_v6_11g+NOXonly25fake500   2011eh_v6_11g+NOXonlysr25fake500  "
+endif
+
+foreach SCEN ($scenarios)
+
+
+#Set Directories
+set INDIR = /work/ROMO/lrt/camx/$GRID/postp
+set THISDIR = /work/ROMO/users/kpc/ssimpact/uam2ncf
+set POSTDIR = /work/ROMO/lrt/camx/$GRID/postp
+
+
+setenv G3D  $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.allmons.ncf
+setenv OUTF $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.annmax.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath.max
+
+
+setenv G3D  $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.allmons.ncf
+setenv OUTF $POSTDIR/combine_MDA8_$POL.$GRID.$SCEN.annavg.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath
+
+end
+end
+
+exit
+

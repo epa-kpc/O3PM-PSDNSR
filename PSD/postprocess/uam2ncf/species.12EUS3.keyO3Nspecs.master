@@ -1,0 +1,29 @@
+##start   YYYYSTA  000000
+##end     YYYYEND  000000
+#layer         1
+/ File [1]: CAMx concentration output file
+/ File [[2]*]: CAMx source apportionment output file
+/
+/new species    ,units     ,expression
+
+O3,ppb,O3[1]*1000
+
+O3N1 ,ppb,O3N001020[2]*1000
+O3N2 ,ppb,O3N001002[2]*1000
+O3N3 ,ppb,O3N001003[2]*1000
+O3N4 ,ppb,O3N001004[2]*1000
+O3N5 ,ppb,O3N001005[2]*1000
+O3N6 ,ppb,O3N001006[2]*1000
+O3N7 ,ppb,O3N001007[2]*1000
+O3N8 ,ppb,O3N001008[2]*1000
+O3N9 ,ppb,O3N001009[2]*1000
+O3N10 ,ppb,O3N001010[2]*1000
+O3N11 ,ppb,O3N001011[2]*1000
+O3N12 ,ppb,O3N001012[2]*1000
+O3N13 ,ppb,O3N001013[2]*1000
+O3N14 ,ppb,O3N001014[2]*1000
+O3N15 ,ppb,O3N001015[2]*1000
+O3N16 ,ppb,O3N001016[2]*1000
+O3N17 ,ppb,O3N001017[2]*1000
+O3N18 ,ppb,O3N001018[2]*1000
+O3N19 ,ppb,O3N001019[2]*1000

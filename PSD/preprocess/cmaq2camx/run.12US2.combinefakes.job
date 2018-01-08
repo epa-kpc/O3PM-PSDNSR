@@ -1,0 +1,189 @@
+#!/bin/csh -f
+#SBATCH -p oar
+#SBATCH -t 96:00:00
+#SBATCH -n 32
+#SBATCH -c 1
+#SBATCH --gid=romo
+#SBATCH --account=romo
+#SBATCH --export=NONE
+
+
+#
+#   This is a sample runscript to convert CMAQ in-line point-source
+#   emissions files to CAMx point-source emissions files.
+#   Set the following file names and run the script:
+#
+#   INPUT_CMAQ_EMIS  - CMAQ in-line point-source emissions file name (input)
+#   INPUT_STACK_GRP  - CMAQ stack group file name (input)
+#   OUTPUT_CAMx_PNT  - CAMx point-source emissions file name (output)
+#   SPECIES_MAPPING  - Species Mapping Table file name (input)
+#   OUTPUT_TIMEZONE  - Timezone for output (8 for PST, etc.)
+#
+
+setenv GRID 12US2 
+#setenv OUTDIR /work/ROMO/lrt/camx/12EUS2/emis
+setenv OUTDIR $cwd/junk2
+mkdir -p $OUTDIR
+
+#-----------------------------------------------------------------#
+
+
+set start_date = 2011274
+set end_date = 2011365
+
+set today = $start_date
+
+while ($today <= $end_date )
+
+#-----------------------------------------------------------------#
+
+set STDATE = $today
+
+set GDAY = (`/home/kpc/camx/dateconv/j2g $today`)
+
+set YYYY = `echo $GDAY | cut -c1-4`
+set YY = `echo $GDAY | cut -c3-4`
+set MM = `echo $GDAY | cut -c5-6`
+set DD = `echo $GDAY | cut -c7-8`
+
+set G_DAY = $YYYY$MM$DD
+set GS_DAY = $YY$MM$DD
+
+@ YYDDD = $STDATE - 2000000
+
+
+@ YESTERDAY = $STDATE - 1
+if ($YESTERDAY == 2011000) then
+ set YESTERDAY = 2010365
+endif
+
+set iday = `grep ^$STDATE /work/ROMO/users/kpc/cmaq/sims/12US2/mergedates.2011.txt`
+
+#-----------------------------------------------------------------#
+
+
+foreach emis ( 500  )
+
+foreach loc ( 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 )
+
+set INPUT_CMAQ_EMIS  = /work/ROMO/users/kpc/merps/emis/ptsr.12US2.2011_nox_so2_co_${emis}tpy_location${loc}.ncf
+set INPUT_STACK_GRP  = /work/ROMO/users/kpc/merps/emis/stack.12US2.2011_nox_so2_co_${emis}tpy_location${loc}_surfrelease.ncf
+set OUTPUT_CAMx_PNT  = $OUTDIR/ptsr.$emis.$loc.bin
+
+
+setenv INFILE  $INPUT_CMAQ_EMIS
+setenv OUTFILE $OUTDIR/tmp_emis
+setenv MAPTBL /work/ROMO/users/kpc/misc/MAPTBL.CMAQ_CB05+AERO6_to_CAMXv6_CB05+CF+RTRACPM_2015feb17
+rm -f $OUTFILE
+/work/ROMO/users/kpc/util/cmaq2camx2013dec27/src/spcmap
+
+setenv CMAQEMIS $OUTDIR/tmp_emis
+setenv STKGROUP $INPUT_STACK_GRP
+rm -f $OUTPUT_CAMx_PNT
+
+/work/ROMO/users/kpc/util/cmaq2camx2013dec27/src/cmaq2uam << EOF
+File Type          |IPNT
+OutFile1 (IC,BC,AR)|
+OutFile2 (TopC,PT) |$OUTPUT_CAMx_PNT
+Output Timezone    |0
+EOF
+
+rm -f $OUTDIR/tmp_emis
+
+
+end #end loop over locations
+
+### merge files
+
+/work/ROMO/users/kpc/util/ptsmrg/ptsmrg << EOF
+jdate    |${YYDDD}
+emissions|/work/ROMO/lrt/camx/$GRID/emis/mrgpt.$YYYY$MM$DD.$GRID.2011eh_cb6v2_v6_11g+fake${emis}_surfrel.camx
+number pt| 37
+         |/work/ROMO/lrt/camx/$GRID/emis/mrgpt.$YYYY$MM$DD.$GRID.2011eh_cb6v2_v6_11g.camx
+         | 1
+sat ptsr |$OUTDIR/ptsr.$emis.1.bin
+group num| 37
+sat ptsr |$OUTDIR/ptsr.$emis.2.bin
+group num| 2
+         |$OUTDIR/ptsr.$emis.3.bin
+         | 3
+         |$OUTDIR/ptsr.$emis.4.bin
+         | 4
+         |$OUTDIR/ptsr.$emis.5.bin
+         | 5
+sat ptsr |$OUTDIR/ptsr.$emis.6.bin
+group num| 6
+sat ptsr |$OUTDIR/ptsr.$emis.7.bin
+group num| 7
+         |$OUTDIR/ptsr.$emis.8.bin
+         | 8
+         |$OUTDIR/ptsr.$emis.9.bin
+         | 9
+         |$OUTDIR/ptsr.$emis.10.bin
+         | 10
+sat ptsr |$OUTDIR/ptsr.$emis.11.bin
+group num| 11
+sat ptsr |$OUTDIR/ptsr.$emis.12.bin
+group num| 12
+         |$OUTDIR/ptsr.$emis.13.bin
+         | 13
+         |$OUTDIR/ptsr.$emis.14.bin
+         | 14
+         |$OUTDIR/ptsr.$emis.15.bin
+         | 15
+sat ptsr |$OUTDIR/ptsr.$emis.16.bin
+group num| 16
+sat ptsr |$OUTDIR/ptsr.$emis.17.bin
+group num| 17
+         |$OUTDIR/ptsr.$emis.18.bin
+         | 18
+         |$OUTDIR/ptsr.$emis.19.bin
+         | 19
+         |$OUTDIR/ptsr.$emis.20.bin
+         | 20
+sat ptsr |$OUTDIR/ptsr.$emis.21.bin
+group num| 21
+sat ptsr |$OUTDIR/ptsr.$emis.22.bin
+group num| 22
+         |$OUTDIR/ptsr.$emis.23.bin
+         | 23
+         |$OUTDIR/ptsr.$emis.24.bin
+         | 24
+         |$OUTDIR/ptsr.$emis.25.bin
+         | 25
+sat ptsr |$OUTDIR/ptsr.$emis.26.bin
+group num| 26
+sat ptsr |$OUTDIR/ptsr.$emis.27.bin
+group num| 27
+         |$OUTDIR/ptsr.$emis.28.bin
+         | 28
+         |$OUTDIR/ptsr.$emis.29.bin
+         | 29
+         |$OUTDIR/ptsr.$emis.30.bin
+         | 30
+sat ptsr |$OUTDIR/ptsr.$emis.31.bin
+group num| 31
+sat ptsr |$OUTDIR/ptsr.$emis.32.bin
+group num| 32
+         |$OUTDIR/ptsr.$emis.33.bin
+         | 33
+         |$OUTDIR/ptsr.$emis.34.bin
+         | 34
+         |$OUTDIR/ptsr.$emis.35.bin
+         | 35
+sat ptsr |$OUTDIR/ptsr.$emis.36.bin
+group num| 36
+EOF
+
+
+
+
+end #end loop over emission rates
+
+
+@ today = $today + 1
+
+end #loop back to next day
+
+exit
+

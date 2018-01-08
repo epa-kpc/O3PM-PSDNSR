@@ -1,0 +1,35 @@
+#!/bin/csh
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=12:00:00
+#PBS -l nodes=1:ppn=8
+
+
+setenv GRID 12US2
+setenv INDIR /work/ROMO/lrt/camx/$GRID/postp
+setenv OUTDIR /work/ROMO/users/merps/merpcalc
+
+#foreach SCENARIO (2011eh_cb6v2_v6_11g+fake1000 2011eh_cb6v2_v6_11g+fake500 2011eh_cb6v2_v6_11g+fake500surfrel )
+#foreach POL ( O3N O3V ) 
+foreach SCENARIO ( 2011eh_cb6v2_v6_11g+fake500VOCsurfrel )
+foreach POL ( O3V )
+foreach source ( 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 )
+
+setenv FNAME peakdist.$GRID.${SCENARIO}_${source}.$POL.txt
+
+cp makemerptables_peakdistfiles.master.2017nov18.r temp.r
+
+perl -pi -e "s/QQGRIDQQ/${GRID}/g;" temp.r
+perl -pi -e "s/QQFNAMEQQ/${FNAME}/g;" temp.r
+perl -pi -e "s/QQMETRICQQ/MDA8/g;" temp.r
+
+R --vanilla < temp.r
+rm -rf temp.r
+
+
+end #end loop over sources
+end #end loop over pollutants
+end #end loop over scenarios
+
+exit()

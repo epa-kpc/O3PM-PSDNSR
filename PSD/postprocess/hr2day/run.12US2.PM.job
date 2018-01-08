@@ -1,0 +1,140 @@
+#! /bin/csh -f
+#SBATCH -p oar
+#SBATCH -t 24:00:00
+#SBATCH -n 32
+#SBATCH -c 1
+#SBATCH --gid=romo
+#SBATCH --account=romo
+
+
+ setenv compiler intel
+ setenv compilerVrsn 17.0
+ source /work/ROMO/users/kpc/merps/hr2day/config_cmaq.csh
+
+ setenv GRID 12US2
+ setenv SCEN 2011eh_cb6v2_v6_11g+fake500surfrel
+
+
+foreach month (01 02 03 04 05 06 07 08 09 10 11 12)
+
+#> define species (format: "Name, units, From_species, Operation")
+#>  operations : {SUM, AVG, MIN, MAX, @MAXT, MAXDIF, 8HRMAX, SUM06}
+ setenv SPECIES_1 "PSO4,ug/m3,PSO4,AVG"
+ setenv SPECIES_2 "SULF1,ug/m3,SULF1,AVG"
+ setenv SPECIES_3 "SULF2,ug/m3,SULF2,AVG"
+ setenv SPECIES_4 "SULF3,ug/m3,SULF3,AVG"
+ setenv SPECIES_5 "SULF4,ug/m3,SULF4,AVG"
+ setenv SPECIES_6 "SULF5,ug/m3,SULF5,AVG"
+ setenv SPECIES_7 "SULF6,ug/m3,SULF6,AVG"
+ setenv SPECIES_8 "SULF7,ug/m3,SULF7,AVG"
+ setenv SPECIES_9 "SULF8,ug/m3,SULF8,AVG"
+ setenv SPECIES_10 "SULF9,ug/m3,SULF9,AVG"
+ setenv SPECIES_11 "SULF10,ug/m3,SULF10,AVG"
+ setenv SPECIES_12 "SULF11,ug/m3,SULF11,AVG"
+ setenv SPECIES_13 "SULF12,ug/m3,SULF12,AVG"
+ setenv SPECIES_14 "SULF13,ug/m3,SULF13,AVG"
+ setenv SPECIES_15 "SULF14,ug/m3,SULF14,AVG"
+ setenv SPECIES_16 "SULF15,ug/m3,SULF15,AVG"
+ setenv SPECIES_17 "SULF16,ug/m3,SULF16,AVG"
+ setenv SPECIES_18 "SULF17,ug/m3,SULF17,AVG"
+ setenv SPECIES_19 "SULF18,ug/m3,SULF18,AVG"
+ setenv SPECIES_20 "SULF19,ug/m3,SULF19,AVG"
+ setenv SPECIES_21 "SULF20,ug/m3,SULF20,AVG"
+ setenv SPECIES_22 "SULF21,ug/m3,SULF21,AVG"
+ setenv SPECIES_23 "SULF22,ug/m3,SULF22,AVG"
+ setenv SPECIES_24 "SULF23,ug/m3,SULF23,AVG"
+ setenv SPECIES_25 "SULF24,ug/m3,SULF24,AVG"
+ setenv SPECIES_26 "SULF25,ug/m3,SULF25,AVG"
+ setenv SPECIES_27 "SULF26,ug/m3,SULF26,AVG"
+ setenv SPECIES_28 "SULF27,ug/m3,SULF27,AVG"
+ setenv SPECIES_29 "SULF28,ug/m3,SULF28,AVG"
+ setenv SPECIES_30 "SULF29,ug/m3,SULF29,AVG"
+ setenv SPECIES_31 "SULF30,ug/m3,SULF30,AVG"
+ setenv SPECIES_32 "SULF31,ug/m3,SULF31,AVG"
+ setenv SPECIES_33 "SULF32,ug/m3,SULF32,AVG"
+ setenv SPECIES_34 "SULF33,ug/m3,SULF33,AVG"
+ setenv SPECIES_35 "SULF34,ug/m3,SULF34,AVG"
+ setenv SPECIES_36 "SULF35,ug/m3,SULF35,AVG"
+ setenv SPECIES_37 "SULF36,ug/m3,SULF36,AVG"
+
+ setenv SPECIES_38 "PNO3,ug/m3,PNO3,AVG"
+ setenv SPECIES_39 "NITR36,ug/m3,NITR36,AVG"
+ setenv SPECIES_40 "NITR1,ug/m3,NITR1,AVG"
+ setenv SPECIES_41 "NITR2,ug/m3,NITR2,AVG"
+ setenv SPECIES_42 "NITR3,ug/m3,NITR3,AVG"
+ setenv SPECIES_43 "NITR4,ug/m3,NITR4,AVG"
+ setenv SPECIES_44 "NITR5,ug/m3,NITR5,AVG"
+ setenv SPECIES_45 "NITR6,ug/m3,NITR6,AVG"
+ setenv SPECIES_46 "NITR7,ug/m3,NITR7,AVG"
+ setenv SPECIES_47 "NITR8,ug/m3,NITR8,AVG"
+ setenv SPECIES_48 "NITR9,ug/m3,NITR9,AVG"
+ setenv SPECIES_49 "NITR10,ug/m3,NITR10,AVG"
+ setenv SPECIES_50 "NITR11,ug/m3,NITR11,AVG"
+ setenv SPECIES_51 "NITR12,ug/m3,NITR12,AVG"
+ setenv SPECIES_52 "NITR13,ug/m3,NITR13,AVG"
+ setenv SPECIES_53 "NITR14,ug/m3,NITR14,AVG"
+ setenv SPECIES_54 "NITR15,ug/m3,NITR15,AVG"
+ setenv SPECIES_55 "NITR16,ug/m3,NITR16,AVG"
+ setenv SPECIES_56 "NITR17,ug/m3,NITR17,AVG"
+ setenv SPECIES_57 "NITR18,ug/m3,NITR18,AVG"
+ setenv SPECIES_58 "NITR19,ug/m3,NITR19,AVG"
+ setenv SPECIES_59 "NITR20,ug/m3,NITR20,AVG"
+ setenv SPECIES_60 "NITR21,ug/m3,NITR21,AVG"
+ setenv SPECIES_61 "NITR22,ug/m3,NITR22,AVG"
+ setenv SPECIES_62 "NITR23,ug/m3,NITR23,AVG"
+ setenv SPECIES_63 "NITR24,ug/m3,NITR24,AVG"
+ setenv SPECIES_64 "NITR25,ug/m3,NITR25,AVG"
+ setenv SPECIES_65 "NITR26,ug/m3,NITR26,AVG"
+ setenv SPECIES_66 "NITR27,ug/m3,NITR27,AVG"
+ setenv SPECIES_67 "NITR28,ug/m3,NITR28,AVG"
+ setenv SPECIES_68 "NITR29,ug/m3,NITR29,AVG"
+ setenv SPECIES_69 "NITR30,ug/m3,NITR30,AVG"
+ setenv SPECIES_70 "NITR31,ug/m3,NITR31,AVG"
+ setenv SPECIES_71 "NITR32,ug/m3,NITR32,AVG"
+ setenv SPECIES_72 "NITR33,ug/m3,NITR33,AVG"
+ setenv SPECIES_73 "NITR34,ug/m3,NITR34,AVG"
+ setenv SPECIES_74 "NITR35,ug/m3,NITR35,AVG"
+
+ setenv SPECIES_75 "NH3,ppb,NH3,AVG"
+
+ setenv BINDIR /work/ROMO/users/kpc/merps/hr2day/BLD_hr2day_v52_intel17.0
+ setenv EXEC hr2day_v52.exe
+#> location of time zone data file, tz.csv (this is a required input file
+#> when using OLAYTYPE HOURLY since hourly observations need to be shifted
+#> from local time to GMT)
+ setenv TZFILE /work/ROMO/users/kpc/merps/hr2day/tz.csv
+#> set input and output files
+ setenv INFILE /work/ROMO/lrt/camx/12US2/postp/combine_hourly_PM.$GRID.$SCEN.$month.ncf
+          #[Add location of input file, e.g. COMBINE_ACONC file.]
+ setenv OUTFILE /work/ROMO/lrt/camx/12US2/postp/combine_24AVG_PM.$GRID.$SCEN.$month.ncf
+ rm -f $OUTFILE
+
+#> Projection sphere type used by I/OAPI (use type #20 to match WRF/CMAQ)
+ setenv IOAPI_ISPH 20
+#> set to use local time (default is GMT)
+ setenv USELOCAL Y
+#> set to use daylight savings time (default is N)
+ setenv USEDST N
+#> partial day calculation (computes value for last day)
+ setenv PARTIAL_DAY Y
+#> constant hour offset between desired time zone and GMT (default is 0)
+ setenv HROFFSET 0
+#> starting hour for daily metrics (default is 0)
+ setenv START_HOUR 0
+#> ending hour for daily metrics (default is 23)
+ setenv END_HOUR 23
+#> Number of 8hr values to use when computing daily maximum 8hr ozone.
+#> Allowed values are 24 (use all 8-hr averages with starting hours 
+#> from 0 - 23 hr local time) and 17 (use only the 17 8-hr averages
+#> with starting hours from 7 - 23 hr local time)
+ setenv HOURS_8HRMAX 24
+# setenv HOURS_8HRMAX 17
+
+#> Executable call:
+ ${BINDIR}/${EXEC}
+
+ end
+
+ exit()
+
+

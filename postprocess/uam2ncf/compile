@@ -1,3 +1,0 @@
-rm -rf *.o
-make -f Makefile
-rm -rf *.o
