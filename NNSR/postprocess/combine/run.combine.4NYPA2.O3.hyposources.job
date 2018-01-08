@@ -1,0 +1,107 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo2
+#PBS -l walltime=48:00:00
+#PBS -l nodes=1:ppn=8
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+unset verbose
+
+
+set YEAR = 2011 #year of model simulation
+set BASE = baseline #baseline model scenario
+set ALT  = ipt.7.voc.500 #alternative model scenario
+set GRID = 4NYPA2 #model domain
+set NZ = 35 #number of vertical layers
+
+foreach SOURCE ( 1 4 7 10 15 19) 
+foreach POL (nox voc) 
+
+set ALT = ipt.${SOURCE}.${POL}.500
+
+set BASEDIR = /work/REGIONS/users/nsareen/ipt/output/4NYPA2.v52_cb6r3.${BASE} #baseline files
+set SENSDIR = /work/REGIONS/users/nsareen/ipt/output/4NYPA2.v52_cb6r3.${ALT}  #alternative scenario files
+set POSTDIR = /work/ROMO/finescale/cmaq/$GRID/postp #location for files generated as part of this script
+set THISDIR = /work/ROMO/users/kpc/o3ipt/work #location of this script
+mkdir -p $POSTDIR
+
+
+foreach mon ( 07 )
+
+set COMBINEMONTH = $POSTDIR/combine_hourly_O3.$GRID.$ALT.$mon.ncf
+rm -f $COMBINEMONTH
+
+echo "##start YYYYSTA 000000" > $THISDIR/species.temp
+echo "##end YYYYEND 000000" >>  $THISDIR/species.temp
+echo "##layer 1" >> $THISDIR/species.temp
+echo "/species,units,expression" >> $THISDIR/species.temp
+echo "O3,ppb,1000*O3[1]" >>  $THISDIR/species.temp
+echo "O3PROJ,ppb,1000*(O3[2]-O3[1])" >>  $THISDIR/species.temp
+setenv SPECIES_DEF $THISDIR/species.temp
+
+if ($mon == 01) then
+set day = {$YEAR}001
+set endday = {$YEAR}032
+else if ($mon == 02) then
+set day = {$YEAR}032
+set endday = {$YEAR}060
+else if ($mon == 03) then
+set day = {$YEAR}060
+set endday = {$YEAR}091
+else if ($mon == 04) then
+set day = {$YEAR}091
+set endday = {$YEAR}121
+else if ($mon == 05) then
+set day = {$YEAR}121
+set endday = {$YEAR}152
+else if ($mon == 06) then
+set day = {$YEAR}152
+set endday = {$YEAR}182
+else if ($mon == 07) then
+set day = {$YEAR}182
+set endday = {$YEAR}211 #changed to 212 for this application
+else if ($mon == 08) then
+set day = {$YEAR}213
+set endday = {$YEAR}244
+else if ($mon == 09) then
+set day = {$YEAR}244
+set endday = {$YEAR}274
+else if ($mon == 10) then
+set day = {$YEAR}274
+set endday = {$YEAR}305
+else if ($mon == 11) then
+set day = {$YEAR}305
+set endday = {$YEAR}335
+else if ($mon == 12) then
+set day = {$YEAR}335
+set endday = {$YEAR}366
+else
+exit
+endif
+
+
+while ($day <= $endday)
+
+# Run combine to make monthly combined files
+setenv INFILE1 $BASEDIR/CCTM_v52.exe.$GRID.$NZ.v52_cb6r3.ACONC.$day
+setenv INFILE2 $SENSDIR/CCTM_v52.exe.$GRID.$NZ.v52_cb6r3.$ALT.ACONC.$day
+setenv INFILE3
+setenv OUTFILE $COMBINEMONTH
+/home/kappel/showard/bin/combine.exe
+
+
+@ day = $day + 1
+
+end #end loop over days
+end #end loop over months
+end #end loop over pollutants
+end #end loop over sources
+
+rm -f $SPECIES_DEF
+
+exit
+

@@ -1,0 +1,103 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors
+#PBS -q romo
+#PBS -l walltime=3:00:00
+#PBS -l select=ncpus=1
+
+set verbose
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+unset verbose
+
+
+
+set YEAR = 2011         #this is the year to label the MATS input file
+set GRID = 4NYPA2
+
+foreach SOURCE (1 4 7 10 15 19)
+foreach POL (nox voc)
+
+set SCEN = ipt.$SOURCE.$POL.500
+
+foreach EXTRACT ( O3 ) #options are SULF SNAS NITR AMMN PM25 O3
+
+set INDIR = /work/ROMO/finescale/cmaq/$GRID/postp 
+set EXECDIR = /work/ROMO/users/kpc/o3ipt/ncf2ssia
+
+#grid specs key:
+#lambert center long,lambert center lat,true lat1,true lat2,nx,ny,xorg,yorg,dx
+set SPCS = " -97.,40.,33.,45.,102,108,1620,0,4"
+
+if ($SOURCE == 1) then
+set loc = "40.467872,-74.402349"
+else if ($SOURCE == 2) then
+set loc = "40.570804,-74.297737"
+else if ($SOURCE == 3) then
+set loc = "40.740473,-74.168870"
+else if ($SOURCE == 4) then
+set loc = "40.933082,-74.058725"
+else if ($SOURCE == 5) then
+#set loc = "30.26870467,-85.70024933"
+else if ($SOURCE == 6) then
+#set loc = "41.19993758,-89.44627229"
+else if ($SOURCE == 7) then
+set loc = "39.595301,-74.999085"
+else if ($SOURCE == 8) then
+#set loc = "35.12398943,-90.00211726"
+else if ($SOURCE == 9) then
+#set loc = "32.17740552,-89.34486176"
+else if ($SOURCE == 10) then
+set loc = "40.821456,-75.017573"
+else if ($SOURCE == 11) then
+#set loc = "41.67386936,-92.0604275"
+else if ($SOURCE == 12) then
+#set loc = "38.01410606,-93.00559649"
+else if ($SOURCE == 13) then
+#set loc = "34.7237285,-92.27476496"
+else if ($SOURCE == 14) then
+#set loc = "32.47616781,-92.71093487"
+else if ($SOURCE == 15) then
+set loc = "40.354849,-76.365666"
+else if ($SOURCE == 16) then
+#set loc = "41.36376195,-96.15511225"
+else if ($SOURCE == 17) then
+#set loc = "38.74567964,-94.94877893"
+else if ($SOURCE == 18) then
+#set loc = "35.75063104,-95.50718552"
+else if ($SOURCE == 19) then
+set loc = "41.762942,-76.430209"
+else
+ exit
+endif
+
+
+rm -f INFILE
+ln -s $INDIR/combine_MDA8_O3.$GRID.$SCEN.projsrc.allmons.ncf INFILE
+
+$EXECDIR/ncf2ssia.x <<EOF
+specie   |$EXTRACT
+sourceloc|$loc
+windowdis|200
+modl year|$YEAR
+projectio|$SPCS
+ssia inpt|$INDIR/ssia_concs.$EXTRACT.$GRID.$SCEN.source${SOURCE}.csv
+ssia stk |$INDIR/ssia_locs.$EXTRACT.$GRID.$SCEN.source${SOURCE}.csv
+ndays    |30
+nfiles   |1
+filename |INFILE
+EOF
+
+
+rm -f INFILE
+
+end # end loop over sources
+end # end loop over target extraction species 
+end # end loop over scenarios
+
+exit()
+
+

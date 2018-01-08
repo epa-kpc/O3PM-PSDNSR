@@ -1,0 +1,43 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors 
+#PBS -q romo2
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=8
+
+if ( $?PBS_JOBID ) then
+ cd $PBS_O_WORKDIR
+endif
+
+unset verbose
+
+
+foreach GRID ( 4NYPA2 )
+foreach SOURCE ( 1 4 7 10 15 19  ) 
+foreach POL (nox voc)
+
+set SCEN = ipt.$SOURCE.$POL.500
+
+#Set Directories
+set INDIR = /work/ROMO/finescale/cmaq/$GRID/postp
+set POSTDIR = /work/ROMO/finescale/cmaq/$GRID/postp
+
+
+setenv G3D  $POSTDIR/combine_MDA8_O3.$GRID.$SCEN.07.ncf
+setenv OUTF $POSTDIR/combine_MDA8_O3.$GRID.$SCEN.epismax.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath.max
+
+
+setenv G3D  $POSTDIR/combine_MDA8_O3.$GRID.$SCEN.07.ncf
+setenv OUTF $POSTDIR/combine_MDA8_O3.$GRID.$SCEN.episavg.ncf
+rm -rf $OUTF
+/work/ROMO/users/kpc/util/iomath/iomath
+
+end
+end
+end
+end
+
+exit
+

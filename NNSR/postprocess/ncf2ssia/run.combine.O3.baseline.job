@@ -1,0 +1,53 @@
+#!/bin/csh -f
+#PBS -W group_list=romo
+#PBS -A sectors 
+#PBS -q romo2
+#PBS -l walltime=24:00:00
+#PBS -l nodes=1:ppn=8
+
+unset verbose
+
+
+
+set GRID = 12US2 
+set YEAR = 2011
+set YY = `echo $YEAR | cut -c3-4`
+set NZ = 25
+
+foreach GRID ( 4NYPA2 )
+foreach SOURCE ( 1 4 7 10 15 19  ) 
+foreach POL (nox voc)
+
+set SCEN = ipt.$SOURCE.$POL.500
+
+#Set Directories
+set INDIR = /work/ROMO/finescale/cmaq/$GRID/postp
+set THISDIR = /work/ROMO/users/kpc/o3ipt/ncf2ssia 
+set POSTDIR = /work/ROMO/finescale/cmaq/$GRID/postp
+mkdir -p $POSTDIR
+
+#Create species def file
+echo "##start   YYYYSTA  000000" > $THISDIR/species.temp
+echo "##end   YYYYEND  000000" >> $THISDIR/species.temp
+echo "##layer 1" >> $THISDIR/species.temp
+echo "O3,ppb,O3[1]" >> $THISDIR/species.temp
+setenv SPECIES_DEF $THISDIR/species.temp
+
+#run combine
+setenv OUTFILE $POSTDIR/combine_MDA8_O3.$GRID.$SCEN.baseline.allmons.ncf
+rm -rf $OUTFILE
+setenv INFILE1 $INDIR/combine_MDA8_O3.$GRID.$SCEN.07.ncf
+if (-e $INFILE1) then
+/home/kappel/showard/bin/combine.exe
+endif
+
+#clean up
+rm -rf $THISDIR/species.temp
+
+#end
+end
+end
+end
+
+exit
+
