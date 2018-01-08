@@ -1,6 +1,6 @@
 These scripts estimate MDA8 for O3 and daily average using the 'hr2day' program.
 
-/hr2day/run.O3N.job
+run.4NYAP2.O3.job
         This script runs the hr2day program
         Inputs are monthly files with hourly ozone (bulk and tagged sources)
         Ancillary input file is a text file with time zone data; this does not need to be modified.
