@@ -1,0 +1,48 @@
+######################################################################
+#
+#   Makefile for CMAQ2CAMx v2
+#
+#   DIRECTORIES:
+#
+#     IOAPI_INC  - I/O-API include file directory
+#     IOAPI_LIB  - I/O-API library file directory
+#     NETCDF_LIB - NetCDF library file directory
+#
+######################################################################
+
+IOAPI_INC  = /models/CMAQ/lib64/ioapi_3/ioapi/fixed_src
+IOAPI_LIB  = /models/CMAQ/lib64/ioapi_3/Linux2_x86_64pg
+NETCDF_LIB = /models/CMAQ/lib64/netcdf-3.6.0-p1/lib
+
+######################################################################
+
+FC  = pgf90
+OPT = -mcmodel=medium -O2 -pc 64 -Mdalign -Mnoframe -byteswapio -Mlfs -Bstatic_pgi
+LIB = -L$(IOAPI_LIB) -lioapi -L$(NETCDF_LIB) -lnetcdf
+INC = -I$(IOAPI_INC)
+
+
+.PHONY: all clean
+
+all : spcmap cmaq2uam ptht pthtq
+
+
+spcmap : spcmap.o
+	$(FC) $(OPT) -o $@ $^ $(LIB)
+
+cmaq2uam : cmaq2uam.o
+	$(FC) $(OPT) -o $@ $^ $(LIB)
+
+ptht : ptht.o
+	$(FC) $(OPT) -o $@ $^
+
+pthtq : pthtq.o
+	$(FC) $(OPT) -o $@ $^ $(LIB)
+
+.f.o :
+	$(FC) $(INC) $(OPT) -c $<
+
+clean :
+	rm -f *.o
+
+
