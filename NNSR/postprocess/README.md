@@ -14,3 +14,7 @@ Calculates episode average and maximum MDA8 values using output generated from t
 
 Generates an ascii text file for input to the Windows based SSIA program for data browsing and plotting for quality assurance purposes.
 
+# exampleipt
+
+Illustrative R scripts used to generate daily ratios for the example provided in Appendix B of the O3 IPT TGD
+
