@@ -16,5 +16,5 @@ Generates an ascii text file for input to the Windows based SSIA program for dat
 
 # exampleipt
 
-Illustrative R scripts used to generate daily ratios for the example provided in Appendix B of the O3 IPT TGD
+Illustrative R scripts used to generate daily ratios for the example provided in Appendix B of the O3 IPT TGD. This program uses the output from hr2day as input.
 

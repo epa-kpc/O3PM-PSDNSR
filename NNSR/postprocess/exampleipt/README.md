@@ -8,7 +8,7 @@ Makes a plot of the model domain and shows which cells are part of the "area". T
 
 # ratio calculator v1.R
 
-Makes a table of daily impacts and the ratio. 
+Makes a table of daily impacts and the ratio. Uses output from the hr2day program as input.
 
 # spatial plots abs impact for one source v1.R
 
